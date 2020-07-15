@@ -56,10 +56,57 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-  
+
   <!-- 服务器接口地址 -->
   <script src="./libs/http.js"></script>
-  <script src="./js/login.js"></script>
+  <!-- <script src="./js/login.js"></script> -->
+  <script>
+    /* 
+    1.点击登录按钮
+    2.阻止默认跳转
+    3.非空判断
+    4.ajax发送请求
+    5.响应结果
+    */
+    // 1.点击登录按钮
+    $('.input_sub').on('click', function (e) {
+      // 2.阻止默认跳转
+      e.preventDefault();
+      //2.1获取用户账号/密码
+      var username = $('.input_txt').val().trim();
+      var password = $('.input_pass').val().trim();
+      // 3.非空判断
+      if (username == "" || password == "") {
+        $('.modal-body>p').text("登录有问题");
+        $('#myModal').modal({ keyboard: true });
+        return;
+      } else {
+        //4.ajax发送请求
+        $.ajax({
+          url: BigNew.user_login,
+          type: "post",
+          dataType: "json",
+          data: {
+            username: username,
+            password: password,
+          },
+          success: function (backData) {
+            console.log(backData);
+            if (backData.code == 200) {
+              // 5.响应结果
+              $('.modal-body>p').text("登录成功");
+              $('#myModal').modal({ keyboard: true });
+              $('#myModal').on("hidden.bs.modal", function (e) {
+                //5.跳转页面
+                window.location.href = "./index.html";
+              });
+            }
+          }
+        })
+
+      }
+    })
+  </script>
 </body>
 
 </html>
