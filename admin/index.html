@@ -72,7 +72,26 @@
             1.页面一加载 : 发送ajax请求
             2.响应的事显示到页面上
             */
-           
+            //1.页面一加载 : 发送ajax请求
+            $.ajax({
+                url: BigNew.user_info,
+                type: "get",
+                dataType: "json",
+                success: function (backData) {
+                    console.log(backData);
+                    //2.响应的事显示到页面上
+                    $('.user_info>img').attr('src', backData.data.userPic);
+                    $('.user_center_lik>img').attr('src', backData.data.userPic);
+                    $('.user_info>span').text('欢迎' + backData.data.nickname);
+                }
+            })
+            //3. 退出登录
+           /*  $('.logout').click(function () {
+                //3.1 删除token
+                localStorage.removeItem('token');
+                //3.2 跳转登录页面
+                window.location.href = "./login.html";
+            }) */
         });
     </script>
 </body>
